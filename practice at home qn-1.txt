@@ -1,0 +1,96 @@
+practice at home qn-1
+
+HTML
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form>
+    <h1>Habit Tracker</h1>
+    <label>
+    <input type="checkbox" name="water" id="chkWater">Drink Water</label> <br>
+    <label>
+    <input type="checkbox" name="exercise" id="chkExercise">Exercise</label> <br>
+    <label>
+      <input type="checkbox" name="book" id="chkReading">Read a Book</label> <br>
+    <button type="button" id="mark-progress">Mark Progress</button>
+    <button type="button" id="reset-progress">Reset</button>
+    <p id="summary">You have completed 0 habits today.</p>
+  </form>
+</body>
+<script src="script.js"></script>
+</html>
+
+CSS
+body{
+    background-color: rgb(236, 231, 231);
+}
+form{
+    background-color: white;
+    width:350px;
+    height:300px;
+    margin:auto;
+    margin-top:250px;
+    padding:20px;
+    border: 3px solid gray;
+    border-radius:10px;
+}
+form h1,p{
+    text-align: center;
+}
+input{
+    margin-left:20px;
+    margin-top:10px;
+}
+label{
+    color:rgb(84, 84, 84);
+}
+#mark-progress{
+    background-color: rgb(41,168,71);
+    color:white;
+    margin-left:80px;
+    padding:10px;
+    margin-top:15px;
+    border-radius:5px;
+    border:none;
+}
+#reset-progress{
+    background-color: rgb(196, 39, 39);
+    color:white;
+    margin-left:20px;
+    padding:10px;
+    margin-top:15px;
+    border-radius:5px;
+    border:none;
+}
+
+
+JS
+const chckboxes=["chkWater","chkExercise","chkReading"];
+document.querySelector("#mark-progress").addEventListener("click",function(){
+    
+    let count=0;
+    for(let i =0;i<chckboxes.length;i++){
+        const checkbox = document.getElementById(chckboxes[i]);
+        if (checkbox.checked){
+            count+=1;
+        }
+    }
+    document.getElementById("summary").textContent="You have completed "+count+" habits today.";
+
+    
+})
+
+document.querySelector("#reset-progress").addEventListener("click",function(){
+    for(let i =0;i<chckboxes.length;i++){
+        document.getElementById(chckboxes[i]).checked=false;
+    }
+    document.getElementById("summary").textContent="You have completed 0 habits today.";
+    count=0;
+})

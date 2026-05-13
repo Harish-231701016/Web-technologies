@@ -1,0 +1,138 @@
+import maya.cmds as cmds
+
+# -------------------------------------------------
+# YOUR RIG CONTROLS
+# Replace these with your actual control names
+# -------------------------------------------------
+
+left_leg = "L_leg_CTRL"
+right_leg = "R_leg_CTRL"
+
+left_arm = "L_arm_CTRL"
+right_arm = "R_arm_CTRL"
+
+hips = "Hips_CTRL"
+
+# -------------------------------------------------
+# TIMELINE
+# -------------------------------------------------
+
+start = 1
+end = 24
+
+cmds.playbackOptions(min=start, max=end)
+
+# -------------------------------------------------
+# CLEAR OLD KEYS
+# -------------------------------------------------
+
+controls = [
+    left_leg,
+    right_leg,
+    left_arm,
+    right_arm,
+    hips
+]
+
+for ctrl in controls:
+    if cmds.objExists(ctrl):
+        cmds.cutKey(ctrl, time=(start, end))
+
+# -------------------------------------------------
+# HIP MOVEMENT
+# -------------------------------------------------
+
+cmds.setKeyframe(
+    hips,
+    attribute="translateY",
+    t=1,
+    v=0
+)
+
+cmds.setKeyframe(
+    hips,
+    attribute="translateY",
+    t=7,
+    v=0.3
+)
+
+cmds.setKeyframe(
+    hips,
+    attribute="translateY",
+    t=13,
+    v=0
+)
+
+cmds.setKeyframe(
+    hips,
+    attribute="translateY",
+    t=19,
+    v=0.3
+)
+
+cmds.setKeyframe(
+    hips,
+    attribute="translateY",
+    t=24,
+    v=0
+)
+
+# -------------------------------------------------
+# WALK POSES
+# -------------------------------------------------
+
+poses = [
+    (1, 35, -35, -25, 25),
+    (7, 0, 0, 0, 0),
+    (13, -35, 35, 25, -25),
+    (19, 0, 0, 0, 0),
+    (24, 35, -35, -25, 25)
+]
+
+for frame, l_leg, r_leg, l_arm, r_arm in poses:
+
+    if cmds.objExists(left_leg):
+        cmds.setKeyframe(
+            left_leg,
+            attribute="rotateX",
+            t=frame,
+            v=l_leg
+        )
+
+    if cmds.objExists(right_leg):
+        cmds.setKeyframe(
+            right_leg,
+            attribute="rotateX",
+            t=frame,
+            v=r_leg
+        )
+
+    if cmds.objExists(left_arm):
+        cmds.setKeyframe(
+            left_arm,
+            attribute="rotateX",
+            t=frame,
+            v=l_arm
+        )
+
+    if cmds.objExists(right_arm):
+        cmds.setKeyframe(
+            right_arm,
+            attribute="rotateX",
+            t=frame,
+            v=r_arm
+        )
+
+# -------------------------------------------------
+# SMOOTH TANGENTS
+# -------------------------------------------------
+
+for ctrl in controls:
+    if cmds.objExists(ctrl):
+        cmds.selectKey(ctrl)
+        cmds.keyTangent(
+            itt="spline",
+            ott="spline"
+        )
+
+print("Walk cycle applied to existing character rig!")
